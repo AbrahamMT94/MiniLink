@@ -6,23 +6,34 @@ using System.Text;
 
 namespace MiniLinkLogic.Libraries.MiniLink.Core.Domain
 {
-    class LinkEntry
+    public class LinkEntry : BaseEntity
     {
-       
+        public LinkEntry(string urL, string ipAdress)
+        {
+            URL = urL;
+            IpAdress = ipAdress;
+           
+        }
+
+        public LinkEntry()
+        {
+           
+        }
         /// <summary>
         /// URL to redirecto to
         /// </summary>
         public string URL { get; set; }
 
+
+        /// <summary>
+        /// Creators ip address
+        /// </summary>
+        public string IpAdress { get; set; }
+
         /// <summary>
         /// Number of visits
         /// </summary>
-        public long Visits { get; set; }
-
-        /// <summary>
-        /// Check whether the link is a premium link
-        /// </summary>
-        public bool PremiumLink { get; set; }   
+        public int Visits { get; set; }
 
     }
 }

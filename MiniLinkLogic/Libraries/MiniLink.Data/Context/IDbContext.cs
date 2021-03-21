@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace MiniLinkLogic.Libraries.MiniLink.Data
 {
+    /// <summary>
+    /// Used to make repositories compatible with any context
+    /// </summary>
     public interface IDbContext : IDisposable
     {     
         DbContext Instance { get; }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MiniLinkLogic.Libraries.MiniLink.Core.Domain
 {
-    class LinkEntryVisit
+    public class LinkEntryVisit : BaseEntity
     {
         public DateTime TimeStamp { get; set; }
 

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Transactions;
+
 
 namespace MiniLinkLogic.Libraries.MiniLink.Data
 {
@@ -162,11 +162,11 @@ namespace MiniLinkLogic.Libraries.MiniLink.Data
             if (entities == null)
                 throw new ArgumentNullException(nameof(entities));
 
-            using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+          
 
             _context.Instance.AddRange(entities);
 
-            transaction.Complete();
+           
 
         }
 
@@ -259,4 +259,4 @@ namespace MiniLinkLogic.Libraries.MiniLink.Data
         #endregion
     }
 }
-}
+
