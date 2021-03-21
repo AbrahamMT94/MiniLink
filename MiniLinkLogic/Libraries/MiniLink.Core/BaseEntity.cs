@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MiniLinkLogic.Libraries.MiniLink.Core
 {
-    class BaseEntity
+    public class BaseEntity
     {
         public BaseEntity()
         {
