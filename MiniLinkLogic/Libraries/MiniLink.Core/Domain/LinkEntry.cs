@@ -1,16 +1,14 @@
-﻿using System;
+﻿using MiniLink.Shared.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Text;
+
 
 namespace MiniLinkLogic.Libraries.MiniLink.Core.Domain
 {
     class LinkEntry
     {
-        /// <summary>
-        /// Id 
-        /// </summary>
-        public Guid Id { get; set; }
-
+       
         /// <summary>
         /// URL to redirecto to
         /// </summary>
