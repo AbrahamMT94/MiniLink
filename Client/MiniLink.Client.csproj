@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Shared\MiniLink.Shared.csproj" />
+   
   </ItemGroup>
 
 </Project>
