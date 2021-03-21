@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
+using MiniLinkLogic.Libraries.MiniLink.Core;
 using MiniLinkLogic.Libraries.MiniLink.Core.Domain;
 using MiniLinkLogic.Libraries.MiniLink.Data;
 using System;
@@ -31,7 +32,7 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<LinkEntry> GetLinkEntryById(Guid? id, string ip = null)
+        public async Task<LinkEntry> GetLinkEntryById(Guid? id)
         {
             if (id == Guid.Empty || !id.HasValue)
                 return null;
@@ -40,9 +41,6 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
 
             if (_cache.TryGetValue(id, out entry))
             {
-
-                await AddVisit(entry, ip);
-
                 return entry;
             }
 
@@ -56,9 +54,15 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
             if (entry != null)
             {
                 _cache.Set(entry.Id, entry, cacheEntryOptions);
-                await AddVisit(entry, ip);
+
             }
             return entry;
+        }
+
+        public async Task<int> GetVisitCount(Guid? id)
+        {
+            var result = await _visitsRepository.GetAllPagedAsync(query => query.Where(m => m.Id == id), 1, 10, true);
+            return result.TotalCount;
         }
 
         public async Task<OperationResult<LinkEntry>> AddLinkEntry(string url, string ipAddress)

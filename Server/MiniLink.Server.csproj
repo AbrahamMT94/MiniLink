@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Client\MiniLink.Client.csproj" />
+    <ProjectReference Include="..\MiniLinkLogic\MiniLinkLogic.csproj" />
     <ProjectReference Include="..\Shared\MiniLink.Shared.csproj" />
   </ItemGroup>
 

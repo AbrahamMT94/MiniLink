@@ -9,6 +9,7 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
         Task<OperationResult<LinkEntry>> AddLinkEntry(string url, string ipAddress);
         Task<OperationResult<LinkEntryVisit>> AddVisit(LinkEntry entry, string ip);
         Task<OperationResult<LinkEntry>> DeleteEntry(Guid? id);
-        Task<LinkEntry> GetLinkEntryById(Guid? id, string ip = null);
+        Task<LinkEntry> GetLinkEntryById(Guid? id);
+        Task<int> GetVisitCount(Guid? id);
     }
 }
