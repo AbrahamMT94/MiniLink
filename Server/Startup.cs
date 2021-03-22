@@ -2,9 +2,14 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MiniLinkLogic.Libraries.MiniLink.Core.Domain;
+using MiniLinkLogic.Libraries.MiniLink.Data;
+using MiniLinkLogic.Libraries.MiniLink.Data.Context;
+using MiniLinkLogic.Libraries.MiniLink.Services;
 using System.Linq;
 
 namespace MiniLink.Server
@@ -22,6 +27,17 @@ namespace MiniLink.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddMemoryCache();
+
+            services.AddDbContext<MiniLinkContext>(options =>
+               options.UseSqlServer( Configuration.GetConnectionString("DefaultConnection")));
+
+
+            services.AddScoped<IBaseRepository<LinkEntry>, BaseRepository<LinkEntry>>();
+            services.AddScoped<IBaseRepository<LinkEntryVisit>, BaseRepository<LinkEntryVisit>>();
+            services.AddScoped<ILinkEntryService, LinkEntryService>();
+
 
             services.AddControllersWithViews();
             services.AddRazorPages();

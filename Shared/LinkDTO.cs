@@ -11,6 +11,7 @@ namespace MiniLink.Shared
         public Guid Id { get; set; }
         public string URL { get; set; }
         public int VisitCount { get; set; }
+
     }
 
     public static class LinkDTOPreparer

@@ -1,0 +1,59 @@
+﻿@page "/createUrl"
+@using MiniLink.Shared
+@inject HttpClient Http
+
+
+<h3>Create a url</h3>
+
+@if (!created) 
+{
+    <h5 class=" text-danger">@message</h5>
+}
+else
+{
+<p>Here is your minimized url: <a href="@message">@message</a></p>
+}
+
+<EditForm Model="createModel" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <InputText id="url" @bind-Value="createModel.URL" />
+
+    <button type="submit">Submit</button>
+</EditForm>
+
+
+
+@code {
+    private bool created = false;
+
+    private string message = string.Empty;
+
+    private MiniLink.Shared.CreateLinkDTO createModel = new CreateLinkDTO();
+    private async Task HandleValidSubmit()
+    {
+        var response = await Http.PostAsJsonAsync<CreateLinkDTO>("Link", createModel);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var entry = await response.Content.ReadFromJsonAsync<string>();
+
+            created = true;
+
+            message = entry;
+
+            this.StateHasChanged();
+
+        }
+        else
+        {
+            created = false;
+
+            message = "Something went wrong";
+
+            this.StateHasChanged();
+        }
+
+    }
+}

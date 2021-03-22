@@ -8,12 +8,17 @@ using System.Threading.Tasks;
 
 namespace MiniLink.Server.Controllers
 {
-
+    [Produces("application/json")]
     [ApiController]
     [Route("[controller]")]
     public class LinkController : ControllerBase
     {
         private readonly ILinkEntryService _linkService;
+
+        public LinkController(ILinkEntryService linkService)
+        {
+            _linkService = linkService;
+        }
 
         public async Task<IActionResult> Get(Guid? id)
         {         
@@ -43,7 +48,7 @@ namespace MiniLink.Server.Controllers
                 return BadRequest(ModelState);
             }
 
-            var url = Url.Action("", "Redirect", new { id = entry.Entry.Id }, this.Request.Scheme);
+            var url = Url.Action("Index","Redirect", new { id = entry.Entry.Id },"https", Request.Host.Value);
             
             return CreatedAtAction(nameof(Create), url );
         }

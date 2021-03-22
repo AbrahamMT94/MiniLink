@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace MiniLink.Server.Controllers
 {
+    [ApiController]
+  
     public class RedirectController : Controller
     {
         private readonly ILinkEntryService _linkService;
@@ -18,6 +20,8 @@ namespace MiniLink.Server.Controllers
         }
 
         // GET: RedirectController
+        [Route("[controller]/{id:guid}")]
+        [HttpGet]
         public async Task<IActionResult> Index(Guid? id)
         {
 

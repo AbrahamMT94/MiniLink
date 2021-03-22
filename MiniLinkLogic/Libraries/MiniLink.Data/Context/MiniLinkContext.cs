@@ -6,7 +6,7 @@ using System.Text;
 
 namespace MiniLinkLogic.Libraries.MiniLink.Data.Context
 {
-    public class MiniLinkContext : DbContext
+    public class MiniLinkContext : DbContext, IDbContext
     {
 
         public DbContext Instance => this;

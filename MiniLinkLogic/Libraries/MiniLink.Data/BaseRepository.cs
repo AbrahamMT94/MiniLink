@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MiniLinkLogic.Libraries.MiniLink.Core;
+using MiniLinkLogic.Libraries.MiniLink.Data.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,7 @@ namespace MiniLinkLogic.Libraries.MiniLink.Data
 
         #region Ctor
 
-        public BaseRepository(IDbContext context)
+        public BaseRepository(MiniLinkContext context)
         {
             _context = context;
         }
