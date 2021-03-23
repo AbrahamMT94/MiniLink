@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
+using MiniLink.Shared.Pagination;
 using MiniLinkLogic.Libraries.MiniLink.Core;
 using MiniLinkLogic.Libraries.MiniLink.Core.Domain;
 using MiniLinkLogic.Libraries.MiniLink.Data;
@@ -46,17 +47,46 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
 
             entry = await _linkEntryRepository.GetByIdAsync(id);
 
+            entry.Visits = await GetVisitCount(entry.Id);
+
+            await _linkEntryRepository.UpdateAsync(entry);
+            await _linkEntryRepository.SaveChangesAsync();
+
             var cacheEntryOptions = new MemoryCacheEntryOptions()
 
            // Keep in cache for this time, reset time if accessed.
-           .SetSlidingExpiration(TimeSpan.FromDays(1));
+           .SetSlidingExpiration(TimeSpan.FromMinutes(5));
 
             if (entry != null)
             {
                 _cache.Set(entry.Id, entry, cacheEntryOptions);
-
             }
             return entry;
+        }
+
+        public async Task<IPaginatedList<LinkEntry>> GetAllPaginated(int pageIndex, string searchString, string sortOrder)
+        {
+            return await _linkEntryRepository.GetAllPagedAsync(query =>
+            {
+
+                if (!string.IsNullOrEmpty(searchString))
+                    query = query.Where(m => m.URL.Contains(searchString) || searchString.Contains(m.URL)).Distinct();
+
+                switch (sortOrder)
+                {
+                    case "asc":
+                        query = query.OrderBy(m => m.DateAdded);
+                        break;
+                    case "desc":
+                        query = query.OrderByDescending(m => m.DateAdded);
+                        break;
+                    default:
+                        query = query.OrderByDescending(m => m.DateAdded);
+                        break;
+                }
+
+                return query;
+            }, pageIndex, 100, false);
         }
 
         public async Task<int> GetVisitCount(Guid? id)
@@ -67,7 +97,7 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
 
         public async Task<OperationResult<LinkEntry>> AddLinkEntry(string url, string ipAddress)
         {
-            var linkEntry = new LinkEntry(url, ipAddress);
+            var linkEntry = new LinkEntry(url, ipAddress, DateTime.UtcNow);
 
             var result = new OperationResult<LinkEntry>(linkEntry);
 

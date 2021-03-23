@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MiniLink.Shared.Pagination;
 using MiniLinkLogic.Libraries.MiniLink.Core;
 using MiniLinkLogic.Libraries.MiniLink.Data.Context;
 using System;

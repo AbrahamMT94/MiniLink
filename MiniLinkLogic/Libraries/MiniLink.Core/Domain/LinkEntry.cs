@@ -8,11 +8,11 @@ namespace MiniLinkLogic.Libraries.MiniLink.Core.Domain
 {
     public class LinkEntry : BaseEntity
     {
-        public LinkEntry(string urL, string ipAdress)
+        public LinkEntry(string urL, string ipAdress, DateTime dateAdded)
         {
             URL = urL;
             IpAdress = ipAdress;
-           
+            DateAdded = dateAdded;
         }
 
         public LinkEntry()
@@ -34,6 +34,9 @@ namespace MiniLinkLogic.Libraries.MiniLink.Core.Domain
         /// Number of visits
         /// </summary>
         public int Visits { get; set; }
+
+        // date added
+        public DateTime DateAdded { get; set; }
 
     }
 }

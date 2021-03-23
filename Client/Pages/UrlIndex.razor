@@ -1,0 +1,117 @@
+﻿@using MiniLink.Shared
+@using MiniLink.Shared.Pagination
+@inject HttpClient Http
+
+
+<h3>Urls</h3>
+
+
+@if (paginatedModel is null)
+{
+    <LoadingSpinner></LoadingSpinner>
+}
+else
+{
+    <EditForm Model="filterModel" OnSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="form-group">
+            <InputText @bind-Value="filterModel.SearchString" class="form-control" />
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+    </EditForm>
+
+    
+            @if (paginatedModel.HasPreviousPage)
+            {
+                <button class="btn btn-primary" onclick="@HandlePrevSubmit()">Prev</button>
+            }
+            @if (paginatedModel.HasNextPage)
+            {
+                <button class="btn btn-primary" onclick="@HandleNextSubmit()" type="submit">Next</button>
+            }
+      
+    <table class="table">
+        <thead>
+            <tr>
+                <th>URL</th>
+                <th>Visits</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var link in paginatedModel)
+            {
+                <tr>
+                    <td>@link.URL</td>
+                    <td>@link.VisitCount</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+
+    private PaginatedModel<LinkWithCountDTO> paginatedModel;
+
+    private FilterModel filterModel = new FilterModel();
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        var query = GetQueryString(filterModel.PageIndex, filterModel.SearchString, filterModel.SortOrder);
+
+
+        paginatedModel = await Http.GetFromJsonAsync<PaginatedModel<LinkWithCountDTO>>("Link?" + query);
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        var query = GetQueryString(filterModel.PageIndex, filterModel.SearchString, filterModel.SortOrder);
+
+
+        paginatedModel = await Http.GetFromJsonAsync<PaginatedModel<LinkWithCountDTO>>("Link?" + query);
+
+        this.StateHasChanged();
+
+    }
+
+    private async Task HandleNextSubmit()
+    {
+        filterModel.PageIndex += 1;
+        var query = GetQueryString(filterModel.PageIndex, filterModel.SearchString, filterModel.SortOrder);
+
+
+        paginatedModel = await Http.GetFromJsonAsync<PaginatedModel<LinkWithCountDTO>>("Link?" + query);
+
+        this.StateHasChanged();
+
+    }
+    private async Task HandlePrevSubmit()
+    {
+        filterModel.PageIndex -= 1;
+
+        var query = GetQueryString(filterModel.PageIndex, filterModel.SearchString, filterModel.SortOrder);
+
+
+        paginatedModel = await Http.GetFromJsonAsync<PaginatedModel<LinkWithCountDTO>>("Link?" + query);
+
+        this.StateHasChanged();
+
+    }
+
+
+    private string GetQueryString(int pageIndex, string searchString, string sortOrder)
+    {
+        var query = HttpUtility.ParseQueryString(string.Empty);
+        query[nameof(pageIndex)] = pageIndex.ToString();
+        query[nameof(searchString)] = searchString;
+        query[nameof(sortOrder)] = sortOrder;
+
+        return query.ToString();
+    }
+}

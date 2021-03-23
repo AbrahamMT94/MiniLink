@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MiniLink.Shared.Pagination;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,20 +19,7 @@ namespace MiniLinkLogic.Libraries.MiniLink.Core
 
         public int PageSize { get; set; }
 
-        public PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
-        {
-            PageIndex = pageIndex;
-
-            TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-
-            TotalCount = count;
-
-            pageSize = Math.Max(pageSize, 1);
-
-            PageSize = pageSize;
-
-            this.AddRange(items);
-        }
+       
 
         public bool HasPreviousPage
         {
@@ -48,7 +36,20 @@ namespace MiniLinkLogic.Libraries.MiniLink.Core
                 return (PageIndex < TotalPages);
             }
         }
+        public PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
+        {
+            PageIndex = pageIndex;
 
+            TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+
+            TotalCount = count;
+
+            pageSize = Math.Max(pageSize, 1);
+
+            PageSize = pageSize;
+
+            this.AddRange(items);
+        }
         public static async Task<PaginatedList<T>> CreateAsync(IQueryable<T> source, int pageIndex, int pageSize)
         {
             // this prevents exceptions if the user tries to go to an invalid index

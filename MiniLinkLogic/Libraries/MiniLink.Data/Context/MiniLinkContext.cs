@@ -37,14 +37,19 @@ namespace MiniLinkLogic.Libraries.MiniLink.Data.Context
             modelBuilder.Entity<LinkEntry>()
                 .Property(m => m.Visits)
                 .HasDefaultValue(0)
-                .HasMaxLength(int.MaxValue);
-
-          
+                .HasMaxLength(int.MaxValue);      
             
             modelBuilder.Entity<LinkEntry>()
                .Property(m => m.IpAdress)
                .HasMaxLength(50)
                .IsRequired(true);
+
+            modelBuilder.Entity<LinkEntry>()
+              .Property(m => m.DateAdded)
+              .IsRequired(true);
+
+            modelBuilder.Entity<LinkEntry>()
+                .HasIndex(m => m.DateAdded);            
 
             // Define the primary key and cluster by it to take advantage of Sequential guids
             modelBuilder.Entity<LinkEntryVisit>()
@@ -58,6 +63,12 @@ namespace MiniLinkLogic.Libraries.MiniLink.Data.Context
             modelBuilder.Entity<LinkEntryVisit>()
              .Property(m => m.TimeStamp)
              .IsRequired(true);
+
+            modelBuilder.Entity<LinkEntryVisit>()
+                .HasIndex(m => m.LinkEntryId);
+
+            modelBuilder.Entity<LinkEntryVisit>()
+                .HasIndex(m => m.TimeStamp);
 
             // ip address usually in ip v6 we'll have 4 sets of chars separated by colons so about 39 chars
             // we'll make it 50 in case there is anything unusual

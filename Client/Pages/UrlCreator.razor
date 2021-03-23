@@ -7,20 +7,22 @@
 
 @if (!created) 
 {
-    <h5 class=" text-danger">@message</h5>
+    <h5 class="alert-danger">@message</h5>
 }
 else
 {
-<p>Here is your minimized url: <a href="@message">@message</a></p>
+<div class="alert-success"><p>Here is your minimized url: <a href="@message">@message</a></p></div>
 }
 
 <EditForm Model="createModel" OnValidSubmit="HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
-
-    <InputText id="url" @bind-Value="createModel.URL" />
-
-    <button type="submit">Submit</button>
+    <div class="form-group">
+        <InputText id="url" @bind-Value="createModel.URL" class="form-control" />
+    </div>
+    <div class="form-group">
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </div>
 </EditForm>
 
 
@@ -30,7 +32,7 @@ else
 
     private string message = string.Empty;
 
-    private MiniLink.Shared.CreateLinkDTO createModel = new CreateLinkDTO();
+    private CreateLinkDTO createModel = new CreateLinkDTO();
     private async Task HandleValidSubmit()
     {
         var response = await Http.PostAsJsonAsync<CreateLinkDTO>("Link", createModel);

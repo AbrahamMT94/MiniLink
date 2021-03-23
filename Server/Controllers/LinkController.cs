@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MiniLink.Server.Mappers;
 using MiniLink.Shared;
+using MiniLink.Shared.Pagination;
 using MiniLinkLogic.Libraries.MiniLink.Services;
 using System;
 using System.Collections.Generic;
@@ -20,18 +22,31 @@ namespace MiniLink.Server.Controllers
             _linkService = linkService;
         }
 
+        [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid? id)
-        {         
+        {
             var entry = await _linkService.GetLinkEntryById(id);
 
             if (entry is null)
                 return NotFound();
 
-            var count = await _linkService.GetVisitCount(id);           
+            return Ok(LinkDTOPreparer.PrepareDTOWithCount(entry));
+        }
 
-           
+        [HttpGet]
+        public async Task<IActionResult> Get([FromQuery]int pageIndex, string searchString, string sortOrder)
+        {
+            if (pageIndex < 1)
+                pageIndex = 1;
 
-            return Ok(LinkDTOPreparer.PrepareDTO(entry.Id, entry.URL, count));
+            var entries = await _linkService.GetAllPaginated(pageIndex, searchString, sortOrder);
+
+            if (entries is null)
+                return NotFound();
+
+           var dtoModel =  PaginatedModel<LinkWithCountDTO>.CreatePaginatedModel(entries.Select(m => LinkDTOPreparer.PrepareDTOWithCount(m)).ToList(),entries.PageIndex,entries.TotalPages, entries.TotalCount, entries.PageSize);
+
+            return Ok(dtoModel);
         }
 
         [HttpPost]

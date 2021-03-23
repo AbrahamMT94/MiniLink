@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MiniLinkLogic.Libraries.MiniLink.Core
+namespace MiniLink.Shared.Pagination
 {
     public interface IPaginatedList<T> : IList<T>
     {

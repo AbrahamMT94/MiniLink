@@ -1,4 +1,5 @@
-﻿using MiniLinkLogic.Libraries.MiniLink.Core;
+﻿using MiniLink.Shared.Pagination;
+using MiniLinkLogic.Libraries.MiniLink.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
