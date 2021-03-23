@@ -33,14 +33,14 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<LinkEntry> GetLinkEntryById(Guid? id)
+        public async Task<LinkEntry> GetLinkEntryById(Guid? id, bool ignoreCache =false)
         {
             if (id == Guid.Empty || !id.HasValue)
                 return null;
 
             LinkEntry entry;
 
-            if (_cache.TryGetValue(id, out entry))
+            if (_cache.TryGetValue(id, out entry) && !ignoreCache)
             {
                 return entry;
             }
@@ -91,7 +91,7 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
 
         public async Task<int> GetVisitCount(Guid? id)
         {
-            var result = await _visitsRepository.GetAllPagedAsync(query => query.Where(m => m.Id == id), 1, 10, true);
+            var result = await _visitsRepository.GetAllPagedAsync(query => query.Where(m => m.LinkEntryId == id), 1, 10, true);
             return result.TotalCount;
         }
 

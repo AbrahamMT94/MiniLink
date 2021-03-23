@@ -12,7 +12,7 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
         Task<OperationResult<LinkEntryVisit>> AddVisit(LinkEntry entry, string ip);
         Task<OperationResult<LinkEntry>> DeleteEntry(Guid? id);
         Task<IPaginatedList<LinkEntry>> GetAllPaginated(int pageIndex, string searchString, string sortOrder);
-        Task<LinkEntry> GetLinkEntryById(Guid? id);
+        Task<LinkEntry> GetLinkEntryById(Guid? id, bool ignoreCache = false);
         Task<int> GetVisitCount(Guid? id);
     }
 }

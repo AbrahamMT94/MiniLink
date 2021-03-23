@@ -20,7 +20,7 @@ namespace MiniLinkLogic.Libraries.MiniLink.Data
 
     #region Fields
 
-        private readonly IDbContext _context;
+        private readonly DbContext _context;
 
 
         #endregion
@@ -34,22 +34,7 @@ namespace MiniLinkLogic.Libraries.MiniLink.Data
 
         #endregion
 
-        #region Utilities
-
-        /// <summary>
-        /// Get all entity entries
-        /// </summary>
-        /// <param name="getAllAsync">Function to select entries</param>    
-        /// <returns>Entity entries</returns>
-        protected virtual async Task<IList<TEntity>> GetEntities(Func<Task<IList<TEntity>>> getAllAsync)
-        {
-
-            return await getAllAsync();
-
-        }
-
-
-        #endregion
+       
 
         #region Methods
 
@@ -62,8 +47,6 @@ namespace MiniLinkLogic.Libraries.MiniLink.Data
         {
             if (!id.HasValue || id == Guid.Empty)
                 return null;
-
-
 
             return await Table.FirstOrDefaultAsync(entity => entity.Id == id);
         }
@@ -82,8 +65,7 @@ namespace MiniLinkLogic.Libraries.MiniLink.Data
             async Task<IList<TEntity>> getByIdsAsync()
             {
                 var query = Table;
-                if (typeof(TEntity).GetInterface(nameof(ISoftDeletedEntity)) != null)
-                    query = Table.OfType<ISoftDeletedEntity>().Where(entry => !entry.Deleted).OfType<TEntity>();
+               
 
                 //get entries
                 var entries = await query.Where(entry => ids.Contains(entry.Id)).ToListAsync();
@@ -110,13 +92,10 @@ namespace MiniLinkLogic.Libraries.MiniLink.Data
         /// <returns>Entity entries</returns>
         public virtual async Task<IList<TEntity>> GetAllAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> func = null)
         {
-            async Task<IList<TEntity>> getAllAsync()
-            {
-                var query = func != null ? func(Table) : Table;
-                return await query.ToListAsync();
-            }
-
-            return await GetEntities(getAllAsync);
+           
+            var query = func != null ? func(Table) : Table;
+            return await query.ToListAsync();
+         
         }
 
 
@@ -150,7 +129,7 @@ namespace MiniLinkLogic.Libraries.MiniLink.Data
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
 
-            _context.Instance.Add(entity);
+            _context.Add(entity);
 
         }
 
@@ -162,13 +141,9 @@ namespace MiniLinkLogic.Libraries.MiniLink.Data
         public virtual async Task InsertAsync(IList<TEntity> entities)
         {
             if (entities == null)
-                throw new ArgumentNullException(nameof(entities));
+                throw new ArgumentNullException(nameof(entities));         
 
-          
-
-            _context.Instance.AddRange(entities);
-
-           
+            _context.AddRange(entities);
 
         }
 
@@ -183,7 +158,7 @@ namespace MiniLinkLogic.Libraries.MiniLink.Data
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
 
-            _context.Instance.Update(entity);
+            _context.Update(entity);
 
 
         }
@@ -201,7 +176,7 @@ namespace MiniLinkLogic.Libraries.MiniLink.Data
             if (!entities.Any())
                 return;
 
-            _context.Instance.AddRange(entities);
+            _context.AddRange(entities);
         }
 
         /// <summary>
@@ -211,21 +186,11 @@ namespace MiniLinkLogic.Libraries.MiniLink.Data
         /// <param name="publishEvent">Whether to publish event notification</param>
         public virtual async Task DeleteAsync(TEntity entity)
         {
-            switch (entity)
-            {
-                case null:
-                    throw new ArgumentNullException(nameof(entity));
-
-                case ISoftDeletedEntity softDeletedEntity:
-                    softDeletedEntity.Deleted = true;
-                    await UpdateAsync(entity);
-                    break;
-
-                default:
-                    _context.Instance.Remove(entity);
-                    break;
-            }
-
+            if(entity is null)
+                throw new ArgumentNullException(nameof(entity));
+          
+            _context.Remove(entity);
+          
         }
 
         /// <summary>
@@ -238,25 +203,16 @@ namespace MiniLinkLogic.Libraries.MiniLink.Data
             if (entities == null)
                 throw new ArgumentNullException(nameof(entities));
 
-            if (entities.OfType<ISoftDeletedEntity>().Any())
-            {
-                foreach (var entity in entities)
-                    if (entity is ISoftDeletedEntity softDeletedEntity)
-                    {
-                        softDeletedEntity.Deleted = true;
-                        await UpdateAsync(entity);
-                    }
-            }
-            else
-                _context.Instance.RemoveRange(entities);
+          
+            _context.RemoveRange(entities);
         }
 
         public virtual async Task<int> SaveChangesAsync()
         {
-            return await _context.Instance.SaveChangesAsync();
+            return await _context.SaveChangesAsync();
         }
 
-        public virtual IQueryable<TEntity> Table => _context.Instance.Set<TEntity>();
+        public virtual IQueryable<TEntity> Table => _context.Set<TEntity>();
 
         #endregion
     }

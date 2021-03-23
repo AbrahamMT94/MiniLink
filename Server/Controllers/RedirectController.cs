@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MiniLink.Server.Utilities;
 using MiniLinkLogic.Libraries.MiniLink.Services;
 using System;
 using System.Collections.Generic;
@@ -20,12 +21,16 @@ namespace MiniLink.Server.Controllers
         }
 
         // GET: RedirectController
-        [Route("[controller]/{id:guid}")]
+        [Route("[controller]/{id}")]
         [HttpGet]
-        public async Task<IActionResult> Index(Guid? id)
+        public async Task<IActionResult> Index(string id)
         {
+            if (string.IsNullOrEmpty(id) || id.Length < 22)
+            {
+                return NotFound();
+            }
 
-            var entry = await _linkService.GetLinkEntryById(id);
+            var entry = await _linkService.GetLinkEntryById(GuidShortener.DecodeGuid(id));
 
             if (entry is null)
                 return NotFound();

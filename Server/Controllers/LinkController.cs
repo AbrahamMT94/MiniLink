@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MiniLink.Server.Mappers;
+using MiniLink.Server.Utilities;
 using MiniLink.Shared;
 using MiniLink.Shared.Pagination;
 using MiniLinkLogic.Libraries.MiniLink.Services;
@@ -61,9 +62,9 @@ namespace MiniLink.Server.Controllers
                     ModelState.AddModelError(nameof(input.URL), error);
                 }
                 return BadRequest(ModelState);
-            }
+            }         
 
-            var url = Url.Action("Index","Redirect", new { id = entry.Entry.Id },"https", Request.Host.Value);
+            var url = Url.Action("Index","Redirect", new { id = GuidShortener.EncodeGuid(entry.Entry.Id) },"https", Request.Host.Value);
             
             return CreatedAtAction(nameof(Create), url );
         }

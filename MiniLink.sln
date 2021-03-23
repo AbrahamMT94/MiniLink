@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniLink.Shared", "Shared\M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniLinkLogic", "MiniLinkLogic\MiniLinkLogic.csproj", "{E410BBF1-6095-43B4-B3EA-F44FE9A89C59}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniLink.Tests", "MiniLinkLogic.Test\MiniLink.Tests.csproj", "{51506D95-5DA9-4303-AAB5-E01AEC81B17D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{E410BBF1-6095-43B4-B3EA-F44FE9A89C59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E410BBF1-6095-43B4-B3EA-F44FE9A89C59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E410BBF1-6095-43B4-B3EA-F44FE9A89C59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51506D95-5DA9-4303-AAB5-E01AEC81B17D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51506D95-5DA9-4303-AAB5-E01AEC81B17D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51506D95-5DA9-4303-AAB5-E01AEC81B17D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51506D95-5DA9-4303-AAB5-E01AEC81B17D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
