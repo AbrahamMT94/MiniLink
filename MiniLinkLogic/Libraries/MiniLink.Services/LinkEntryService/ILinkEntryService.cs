@@ -1,5 +1,4 @@
 ﻿using MiniLink.Shared.Pagination;
-using MiniLinkLogic.Libraries.MiniLink.Core;
 using MiniLinkLogic.Libraries.MiniLink.Core.Domain;
 using System;
 using System.Threading.Tasks;
@@ -14,5 +13,6 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
         Task<IPaginatedList<LinkEntry>> GetAllPaginated(int pageIndex, string searchString, string sortOrder);
         Task<LinkEntry> GetLinkEntryById(Guid? id, bool ignoreCache = false);
         Task<int> GetVisitCount(Guid? id);
+        Task RefreshCount(LinkEntry entry);
     }
 }

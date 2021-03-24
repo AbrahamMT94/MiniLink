@@ -38,15 +38,16 @@ else
             <tr>
                 <th>URL</th>
                 <th>Visits</th>
-
+                <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var link in paginatedModel)
             {
                 <tr>
-                    <td>@link.URL</td>
+                    <td class="text-wrap">@link.URL</td>
                     <td>@link.VisitCount</td>
+                    <td><button @onclick="@(async ()=> await RefreshCount(link))">Refresh</button></td>
                 </tr>
             }
         </tbody>
@@ -85,12 +86,12 @@ else
         filterModel.PageIndex += 1;
         var query = GetQueryString(filterModel.PageIndex, filterModel.SearchString, filterModel.SortOrder);
 
-
         paginatedModel = await Http.GetFromJsonAsync<PaginatedModel<LinkWithCountDTO>>("Link?" + query);
 
         this.StateHasChanged();
 
     }
+
     private async Task HandlePrevSubmit()
     {
         filterModel.PageIndex -= 1;
@@ -102,6 +103,17 @@ else
 
         this.StateHasChanged();
 
+    }
+
+    private async Task RefreshCount(LinkWithCountDTO entry)
+    {
+        var refreshed =  await Http.GetFromJsonAsync<LinkWithCountDTO>($"Link/{entry.Id}");
+
+        var item =  paginatedModel.Find(m => m.Id == refreshed.Id);
+
+        item.VisitCount = refreshed.VisitCount;
+
+        this.StateHasChanged();
     }
 
 

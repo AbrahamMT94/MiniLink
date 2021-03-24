@@ -33,7 +33,7 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<LinkEntry> GetLinkEntryById(Guid? id, bool ignoreCache =false)
+        public async Task<LinkEntry> GetLinkEntryById(Guid? id, bool ignoreCache = false)
         {
             if (id == Guid.Empty || !id.HasValue)
                 return null;
@@ -47,10 +47,7 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
 
             entry = await _linkEntryRepository.GetByIdAsync(id);
 
-            entry.Visits = await GetVisitCount(entry.Id);
-
-            await _linkEntryRepository.UpdateAsync(entry);
-            await _linkEntryRepository.SaveChangesAsync();
+            await RefreshCount(entry);
 
             var cacheEntryOptions = new MemoryCacheEntryOptions()
 
@@ -62,6 +59,15 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
                 _cache.Set(entry.Id, entry, cacheEntryOptions);
             }
             return entry;
+        }
+
+        public async Task RefreshCount(LinkEntry entry)
+        {
+            entry.Visits = await GetVisitCount(entry.Id);
+
+            await _linkEntryRepository.UpdateAsync(entry);
+            await _linkEntryRepository.SaveChangesAsync();
+
         }
 
         public async Task<IPaginatedList<LinkEntry>> GetAllPaginated(int pageIndex, string searchString, string sortOrder)

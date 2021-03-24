@@ -26,7 +26,7 @@ namespace MiniLink.Server.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid? id)
         {
-            var entry = await _linkService.GetLinkEntryById(id);
+            var entry = await _linkService.GetLinkEntryById(id,true);
 
             if (entry is null)
                 return NotFound();
