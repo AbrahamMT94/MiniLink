@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace MiniLink.Server.Controllers
 {
@@ -64,7 +65,7 @@ namespace MiniLink.Server.Controllers
                 return BadRequest(ModelState);
             }         
 
-            var url = Url.Action("Index","Redirect", new { id = GuidShortener.EncodeGuid(entry.Entry.Id) },"https", Request.Host.Value);
+            var url = Url.Action("Index","Redirect", new { id =GuidShortener.EncodeGuid(entry.Entry.Id) },"https", Request.Host.Value);
             
             return CreatedAtAction(nameof(Create), url );
         }

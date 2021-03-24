@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace MiniLink.Server.Utilities
 {
@@ -9,14 +10,14 @@ namespace MiniLink.Server.Utilities
     {
         public static string EncodeGuid(Guid guid)
         {
-            var encodedGuid = Convert.ToBase64String(guid.ToByteArray());
-            // for all strings we have a '==' at the end so we trim it and add it back in the decode function
-            return encodedGuid.Substring(0, encodedGuid.Length-2) ;
+            var encodedGuid = Base64UrlTextEncoder.Encode(guid.ToByteArray());
+          
+            return encodedGuid ;
         }
 
         public static Guid DecodeGuid(string encodedString)
         {
-            return new Guid(Convert.FromBase64String(encodedString + "=="));
+            return new Guid(Base64UrlTextEncoder.Decode(encodedString ));
         }
     }
 }
