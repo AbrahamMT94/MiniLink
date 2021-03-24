@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace MiniLink.Server.Controllers
 {
@@ -29,6 +30,9 @@ namespace MiniLink.Server.Controllers
             {
                 return NotFound();
             }
+
+            // base 64 does not alway produce url safe text therefore we need to decode it
+            id = HttpUtility.UrlDecode(id);
 
             var entry = await _linkService.GetLinkEntryById(GuidShortener.DecodeGuid(id));
 
