@@ -95,6 +95,8 @@ namespace MiniLink.Tests.MiniLinkTests
             var readAll = await linkRepo.GetAllAsync();
 
             Assert.Equal(2, readAll.Count);
+
+            context.Dispose();
         }
 
         [Fact]
@@ -132,6 +134,8 @@ namespace MiniLink.Tests.MiniLinkTests
 
             Assert.Equal(readEntry.Visits, updatedEntry.Visits);
             Assert.True(entry.Visits != updatedEntry.Visits);
+
+            context.Dispose();
         }
 
         [Fact]
@@ -164,6 +168,8 @@ namespace MiniLink.Tests.MiniLinkTests
 
             var deletedEntry = await linkRepo.GetByIdAsync(entry.Id);
             Assert.True(deletedEntry == default(LinkEntry));
+
+            context.Dispose();
         }
     }
 }

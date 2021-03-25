@@ -77,7 +77,7 @@ namespace MiniLink.Tests.MiniLinkTests
             var fetch = await linkEntryService.GetLinkEntryById(add.Entry.Id,true);
 
             Assert.Equal(fetch.URL, url);
-
+            context.Dispose();
         }
 
         [Fact]
@@ -128,6 +128,8 @@ namespace MiniLink.Tests.MiniLinkTests
 
 
             Assert.Equal(101, entryWithUpdatedCount.Visits);
+
+            context.Dispose();
         }
 
     }
