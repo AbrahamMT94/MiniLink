@@ -5,6 +5,7 @@ This project follows the onion or layers architecture where the outer layers onl
 
 The project is currently live at the following url:
 https://minilink.azurewebsites.net/
+(First load might take a few seconds while server warms up. Subsequent request should be fast.) 
 
 ### Project Structure
 #
