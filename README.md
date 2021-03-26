@@ -3,6 +3,9 @@
 Minilink is simple url shortener with basic reporting such as url visit count. 
 This project follows the onion or layers architecture where the outer layers only rely on the ones one level beneath it to avoid tight coupling.
 
+The project is currently live at the following url:
+https://minilink.azurewebsites.net/
+
 ### Project Structure
 #
 Minilink is broken down into 3 projects:
