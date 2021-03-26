@@ -43,7 +43,7 @@ The project structure is as follows:
 ### Test Project
 #
 The test project contains a few unit and integration tests. Rather than mocking our interfaces or layers we use SQLite to generate actual contexts to simulate the database.
-This of course might not be always feasable and it might be desirable to perhaps use an actual test database that is closer to our production environment but for this demo it should suffice.
+This of course might not be always feasable and it might be desirable to perhaps use an actual test database that is closer to our production environment but for this demo it should suffice. Testing is done via XUnit.
 
 The project structure is as follows:
 - **MiniLinkTests:** In this folder you'll find folder that test our data access layer and service layer.
