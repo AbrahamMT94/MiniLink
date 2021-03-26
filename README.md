@@ -9,7 +9,7 @@ https://minilink.azurewebsites.net/
 
 ### Project Structure
 #
-Minilink is broken down into 3 projects:
+Minilink is broken down into 4 projects:
 1. **Logic**
 2. **Server** 
 3. **Client**
@@ -19,7 +19,7 @@ Minilink is broken down into 3 projects:
 #
 The logic project is where our app live it contain separate folder for business logic, data access, etc.
 
-The logic project contains 3 projects:
+The logic project contains 3 folders:
 - **Data:** Where the code for repositories and Data access layer lives
 - **Core:** Where the domain entitites live
 - **Service:** Where our services live
