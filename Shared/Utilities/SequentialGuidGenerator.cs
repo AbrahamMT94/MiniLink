@@ -5,6 +5,11 @@ using System.Text;
 
 namespace MiniLink.Shared.Utilities
 {
+    /// <summary>
+    /// This code was borrowed from a comb generator when researching online  see https://github.com/jhtodd/SequentialGuid
+    /// This comb however did not guarantee being fully sequential and relied on randompart due to the timestamp resolution being 4ms
+    /// Added a custom timestamp provided that allowed us to ensure that the ids are generated 4ms apart.
+    /// </summary>
     public static class SequentialGuidGenerator
     {
         #region Static Fields
@@ -36,35 +41,7 @@ namespace MiniLink.Shared.Utilities
             byte[] randomBytes = new byte[10];
             SequentialGuidGenerator.RandomGenerator.GetBytes(randomBytes);
 
-            // An alternate method: use a normally-created GUID to get our initial
-            // random data:
-            // byte[] randomBytes = Guid.NewGuid().ToByteArray();
-            // This is faster than using RNGCryptoServiceProvider, but I don't
-            // recommend it because the .NET Framework makes no guarantee of the
-            // randomness of GUID data, and future versions (or different
-            // implementations like Mono) might use a different method.
-
-            // Now we have the random basis for our GUID.  Next, we need to
-            // create the six-byte block which will be our timestamp.
-
-            // We start with the number of milliseconds that have elapsed since
-            // DateTime.MinValue.  This will form the timestamp.  There's no use
-            // being more specific than milliseconds, since DateTime.Now has
-            // limited resolution.
-
-            //
-            // Addendum: using a custom timestamp provider allows us to force the caller to wait until we get a new sequential Id this in turn enforces sequential ids regardless of where they are called. 
-
-            // Using millisecond resolution for our 48-bit timestamp gives us
-            // about 5900 years before the timestamp overflows and cycles.
-            // Hopefully this should be sufficient for most purposes. :)
-
-            // ms timestamp resolution is about 3ms. This means that if the guid is generated
-            // within 3 seconds of another one it is not guaranteed to be sequential
-            // the solution was to use our own timestamp generator which uses a lock to force the timestamp to update by 
-            // 1 if the last timestamp will collide. This ensure our id's are all sequential.
-
-            // use custome timestamp provider
+           
             long timestamp = timestampProvider.GetTimestamp().Ticks / 10000L;
 
             // Then get the bytes
