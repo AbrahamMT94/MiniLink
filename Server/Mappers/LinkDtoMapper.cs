@@ -6,19 +6,17 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace MiniLink.Server.Mappers
-{
-   
-        public static class LinkDTOPreparer
+{  
+    public static class LinkDTOPreparer
+    {
+        public static LinkDTO PrepareDTO(LinkEntry entry)
         {
-            public static LinkDTO PrepareDTO(LinkEntry entry )
-            {
-                return new LinkDTO { Id = entry.Id, URL = entry.URL };
-            }
+            return new LinkDTO { Id = entry.Id, URL = entry.URL };
+        }
+
         public static LinkWithCountDTO PrepareDTOWithCount(LinkEntry entry)
         {
             return new LinkWithCountDTO { Id = entry.Id, URL = entry.URL, VisitCount = entry.Visits };
         }
     }
-
-   
 }

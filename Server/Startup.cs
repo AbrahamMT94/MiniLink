@@ -29,13 +29,17 @@ namespace MiniLink.Server
         {
 
             services.AddMemoryCache();
+            
 
+            // sets up dbcontext, could probably use context pooling in this scenario
             services.AddDbContext<MiniLinkContext>(options =>
                options.UseSqlServer( Configuration.GetConnectionString("DefaultConnection")));
 
-
+            // added repositories
             services.AddScoped<IBaseRepository<LinkEntry>, BaseRepository<LinkEntry>>();
             services.AddScoped<IBaseRepository<LinkEntryVisit>, BaseRepository<LinkEntryVisit>>();
+
+            // added link entry service
             services.AddScoped<ILinkEntryService, LinkEntryService>();
 
 
@@ -54,7 +58,9 @@ namespace MiniLink.Server
             }
             else
             {
+                // run migrations and ensure db is up to date
                 context.Database.Migrate();
+
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();

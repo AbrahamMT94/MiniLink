@@ -9,6 +9,7 @@ namespace MiniLinkLogic.Libraries.MiniLink.Core
     {
         public BaseEntity()
         {
+
                 Id = SequentialGuidGenerator.Create(SequentialGuidType.SequentialAtEnd);
         }
 

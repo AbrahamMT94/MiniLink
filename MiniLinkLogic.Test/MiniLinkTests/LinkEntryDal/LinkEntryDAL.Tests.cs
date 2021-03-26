@@ -14,9 +14,7 @@ namespace MiniLink.Tests.MiniLinkTests
 {
     /// <summary>
     /// While these set of tests seems pointless since since they basically test ef core 
-    /// there might be a point where we might add filters 
-    /// for multi user support with 
-    /// userid columns so we will add and modify as needed.
+    /// there might be a point where we might add filters or support different kinds of queries
     /// </summary>
     public class LinkEntryDALTests
     {

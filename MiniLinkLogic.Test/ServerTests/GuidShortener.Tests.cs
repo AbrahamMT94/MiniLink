@@ -9,6 +9,7 @@ namespace MiniLink.Tests
 
         /// <summary>
         /// proves that encoder encodes and decodes correctly
+        /// 
         /// </summary>
         [Fact]
         public void ValidCase()
