@@ -47,6 +47,9 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
 
             entry = await _linkEntryRepository.GetByIdAsync(id);
 
+            if(entry is null)
+                return null;
+
             await RefreshCount(entry);
 
             var cacheEntryOptions = new MemoryCacheEntryOptions()
