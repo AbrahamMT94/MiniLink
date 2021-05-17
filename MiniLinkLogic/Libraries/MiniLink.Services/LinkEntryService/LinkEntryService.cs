@@ -40,10 +40,11 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
 
             LinkEntry entry;
 
-            if (_cache.TryGetValue(id, out entry) && !ignoreCache)
-            {
-                return entry;
-            }
+            if(!ignoreCache)
+                 if(_cache.TryGetValue(id, out entry))
+                 {
+                    return entry;
+                 }
 
             entry = await _linkEntryRepository.GetByIdAsync(id);
 
