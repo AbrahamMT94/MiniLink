@@ -71,10 +71,11 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
 
             LinkEntry entry;
 
-            if (_cache.TryGetValue(base64Id, out entry) && !ignoreCache)
-            {
-                return entry;
-            }
+            if(!ignoreCache)
+                if (_cache.TryGetValue(base64Id, out entry) )
+                {
+                    return entry;
+                }
 
             var query = await _linkEntryRepository.GetAllAsync(query => { return query.Where(m => m.Base64Id == base64Id); });
 
