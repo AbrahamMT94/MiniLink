@@ -14,9 +14,9 @@ namespace MiniLink.Server.Mappers
             return new LinkDTO { Id = entry.Id, URL = entry.URL };
         }
 
-        public static LinkWithCountDTO PrepareDTOWithCount(LinkEntry entry)
+        public static LinkWithCountDTO PrepareDTOWithCount(LinkEntry entry, string urlBase)
         {
-            return new LinkWithCountDTO { Id = entry.Id, URL = entry.URL, VisitCount = entry.Visits };
+            return new LinkWithCountDTO { Id = entry.Id, URL = entry.URL, VisitCount = entry.Visits, ShortenedUrl = $"{urlBase}/{entry.Base64Id}" };
         }
     }
 }

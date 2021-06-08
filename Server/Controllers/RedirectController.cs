@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MiniLink.Server.Utilities;
 using MiniLinkLogic.Libraries.MiniLink.Services;
 using System;
 using System.Collections.Generic;
@@ -34,7 +33,7 @@ namespace MiniLink.Server.Controllers
             // base 64 does not alway produce url safe text therefore we need to decode it
           
 
-            var entry = await _linkService.GetLinkEntryById(GuidShortener.DecodeGuid(id));
+            var entry = await _linkService.GetLinkEntryByBase64Id(id);
 
             if (entry is null)
                 return NotFound();

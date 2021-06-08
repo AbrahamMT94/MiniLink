@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MiniLink.Shared.Pagination
 {
-    public interface IPaginatedList<T> : IList<T>
+    public interface IPaginatedList<T> 
     {
         /// <summary>
         /// Page index
@@ -35,5 +35,7 @@ namespace MiniLink.Shared.Pagination
         /// Has next age
         /// </summary>
         bool HasNextPage { get; }
+
+        IList<T> Items { get; }
     }
 }

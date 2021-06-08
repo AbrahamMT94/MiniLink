@@ -54,7 +54,7 @@ namespace MiniLink.Tests.MiniLinkTests
         /// </summary>
         /// <returns></returns>
         [Fact]
-        public async Task TestInsertAndGetById()
+        public async Task TestInsertAndGetByBase64Id()
         {
 
             MiniLinkContext context = GetContext();
@@ -90,7 +90,7 @@ namespace MiniLink.Tests.MiniLinkTests
 
             linkEntryService = await SetupAsync();
 
-            var fetch = await linkEntryService.GetLinkEntryById(add.Entry.Id,true);
+            var fetch = await linkEntryService.GetLinkEntryByBase64Id(add.Entry.Base64Id,true);
 
             Assert.Equal(fetch.URL, url);
 
@@ -133,13 +133,13 @@ namespace MiniLink.Tests.MiniLinkTests
 
             var add = await linkEntryService.AddLinkEntry(url, "");
 
-            var addedEntry = await linkEntryService.GetLinkEntryById(add.Entry.Id, true);
+            var addedEntry = await linkEntryService.GetLinkEntryByBase64Id(add.Entry.Base64Id, true);
 
             var addVisit = await linkEntryService.AddVisit(addedEntry,"");
 
             Assert.True(addVisit.Success);
 
-            var entry = await linkEntryService.GetLinkEntryById(add.Entry.Id,true);
+            var entry = await linkEntryService.GetLinkEntryByBase64Id(add.Entry.Base64Id,true);
 
             // first visit
             Assert.Equal(1, entry.Visits);
@@ -149,13 +149,13 @@ namespace MiniLink.Tests.MiniLinkTests
 
 
             //first visit is shown since we cache on read
-            var cachedEntry = await linkEntryService.GetLinkEntryById(add.Entry.Id);
+            var cachedEntry = await linkEntryService.GetLinkEntryByBase64Id(add.Entry.Base64Id);
 
           
             Assert.Equal(1, cachedEntry.Visits);
 
             // after setting ignore cache true we should get the actual count.
-            var updatedEntry = await linkEntryService.GetLinkEntryById(add.Entry.Id,true);
+            var updatedEntry = await linkEntryService.GetLinkEntryByBase64Id(add.Entry.Base64Id,true);
 
             Assert.Equal(101, updatedEntry.Visits);
 

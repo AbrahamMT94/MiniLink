@@ -33,19 +33,19 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<LinkEntry> GetLinkEntryById(Guid? id, bool ignoreCache = false)
+        public async Task<LinkEntry> GetLinkEntryById(Guid? id)
         {
             if (id == Guid.Empty || !id.HasValue)
                 return null;
 
             LinkEntry entry;
 
-            if (_cache.TryGetValue(id, out entry) && !ignoreCache)
-            {
-                return entry;
-            }
+
 
             entry = await _linkEntryRepository.GetByIdAsync(id);
+
+            if (entry is null)
+                return null;
 
             await RefreshCount(entry);
 
@@ -57,6 +57,42 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
             if (entry != null)
             {
                 _cache.Set(entry.Id, entry, cacheEntryOptions);
+            }
+            return entry;
+        }
+        public async Task<LinkEntry> GetLinkEntryByBase64Id(string base64Id, bool ignoreCache = false)
+        {
+            if (string.IsNullOrEmpty(base64Id))
+            {
+                return null;
+            }
+
+
+
+            LinkEntry entry;
+
+            if (_cache.TryGetValue(base64Id, out entry) && !ignoreCache)
+            {
+                return entry;
+            }
+
+            var query = await _linkEntryRepository.GetAllAsync(query => { return query.Where(m => m.Base64Id == base64Id); });
+
+            entry = query.FirstOrDefault();
+
+            if (entry is null)
+                return null;
+
+            await RefreshCount(entry);
+
+            var cacheEntryOptions = new MemoryCacheEntryOptions()
+
+           // Keep in cache for this time, reset time if accessed.
+           .SetSlidingExpiration(TimeSpan.FromMinutes(5));
+
+            if (entry != null)
+            {
+                _cache.Set(entry.Base64Id, entry, cacheEntryOptions);
             }
             return entry;
         }
@@ -76,7 +112,7 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
             {
 
                 if (!string.IsNullOrEmpty(searchString))
-                    query = query.Where(m => m.URL.Contains(searchString) || searchString.Contains(m.URL)).Distinct();
+                    query = query.Where(m => m.URL.Contains(searchString) || searchString.Contains(m.URL) || searchString == m.Base64Id).Distinct();
 
                 switch (sortOrder)
                 {
@@ -92,7 +128,7 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
                 }
 
                 return query;
-            }, pageIndex, 100, false);
+            }, pageIndex, 10, false);
         }
 
         public async Task<int> GetVisitCount(Guid? id)
@@ -104,6 +140,8 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
         public async Task<OperationResult<LinkEntry>> AddLinkEntry(string url, string ipAddress)
         {
             var linkEntry = new LinkEntry(url, ipAddress, DateTime.UtcNow);
+
+
 
             var result = new OperationResult<LinkEntry>(linkEntry);
 

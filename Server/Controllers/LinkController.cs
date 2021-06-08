@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MiniLink.Server.Mappers;
-using MiniLink.Server.Utilities;
 using MiniLink.Shared;
 using MiniLink.Shared.Pagination;
+using MiniLinkLogic.Libraries.MiniLink.Core.Domain;
 using MiniLinkLogic.Libraries.MiniLink.Services;
 using System;
 using System.Collections.Generic;
@@ -27,12 +27,14 @@ namespace MiniLink.Server.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid? id)
         {
-            var entry = await _linkService.GetLinkEntryById(id,true);
+            var entry = await _linkService.GetLinkEntryById(id);
 
             if (entry is null)
                 return NotFound();
 
-            return Ok(LinkDTOPreparer.PrepareDTOWithCount(entry));
+           
+
+            return Ok(LinkDTOPreparer.PrepareDTOWithCount(entry, $"https://{this.Request.Host}/Redirect"));
         }
 
         [HttpGet]
@@ -46,7 +48,7 @@ namespace MiniLink.Server.Controllers
             if (entries is null)
                 return NotFound();
 
-           var dtoModel =  PaginatedModel<LinkWithCountDTO>.CreatePaginatedModel(entries.Select(m => LinkDTOPreparer.PrepareDTOWithCount(m)).ToList(),entries.PageIndex,entries.TotalPages, entries.TotalCount, entries.PageSize);
+            IPaginatedList<LinkWithCountDTO> dtoModel =  PaginatedModel<LinkWithCountDTO>.CreatePaginatedModel(entries.Items.Select(m => LinkDTOPreparer.PrepareDTOWithCount(m, $"https://{this.Request.Host}/Redirect")).ToList(),entries.PageIndex,entries.TotalPages, entries.TotalCount, entries.PageSize);
 
             return Ok(dtoModel);
         }
@@ -63,11 +65,13 @@ namespace MiniLink.Server.Controllers
                     ModelState.AddModelError(nameof(input.URL), error);
                 }
                 return BadRequest(ModelState);
-            }         
+            }
 
-            var url = Url.Action("Index","Redirect", new { id =GuidShortener.EncodeGuid(entry.Entry.Id) },"https", Request.Host.Value);
+         
             
-            return CreatedAtAction(nameof(Create), url );
+            return CreatedAtAction(nameof(Create), LinkDTOPreparer.PrepareDTOWithCount(entry.Entry, $"https://{this.Request.Host}/Redirect").ShortenedUrl);
         }
+
+       
     }
 }

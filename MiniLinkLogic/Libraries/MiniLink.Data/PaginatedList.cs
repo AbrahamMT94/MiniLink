@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MiniLinkLogic.Libraries.MiniLink.Core
+namespace MiniLinkLogic.Libraries.MiniLink.Data
 {
     [Serializable]
-    public class PaginatedList<T> : List<T>, IPaginatedList<T>
+    public class PaginatedList<T> : IPaginatedList<T>
     {
         public int PageIndex { get; private set; }
 
@@ -19,7 +19,7 @@ namespace MiniLinkLogic.Libraries.MiniLink.Core
 
         public int PageSize { get; set; }
 
-       
+       public IList<T> Items { get; set; }
 
         public bool HasPreviousPage
         {
@@ -48,7 +48,7 @@ namespace MiniLinkLogic.Libraries.MiniLink.Core
 
             PageSize = pageSize;
 
-            this.AddRange(items);
+            Items = items;
         }
         public static async Task<PaginatedList<T>> CreateAsync(IQueryable<T> source, int pageIndex, int pageSize)
         {

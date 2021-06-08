@@ -49,8 +49,15 @@ namespace MiniLinkLogic.Libraries.MiniLink.Data.Context
               .IsRequired(true);
 
             modelBuilder.Entity<LinkEntry>()
-                .HasIndex(m => m.DateAdded);            
+                .HasIndex(m => m.DateAdded);
 
+            modelBuilder.Entity<LinkEntry>()
+               .Property(m => m.Base64Id)
+               .HasMaxLength(22)
+               .IsRequired(true);
+
+            modelBuilder.Entity<LinkEntry>()
+               .HasIndex(m => m.Base64Id);
             // Define the primary key and cluster by it to take advantage of Sequential guids
             modelBuilder.Entity<LinkEntryVisit>()
                .HasKey(m => m.Id)
@@ -76,6 +83,8 @@ namespace MiniLinkLogic.Libraries.MiniLink.Data.Context
                 .Property(m => m.VisitorIPAdress)
                 .HasMaxLength(50)
                 .IsRequired(true);
+
+            
 
         }
 

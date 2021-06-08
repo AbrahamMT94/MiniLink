@@ -13,6 +13,8 @@ namespace MiniLink.Shared
     public class LinkDTO : CreateLinkDTO
     {     
         public Guid Id { get; set; }
+
+        public string ShortenedUrl { get; set; }
     }
 
     public class LinkWithCountDTO:LinkDTO

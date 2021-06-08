@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.WebUtilities;
 
-namespace MiniLink.Server.Utilities
+namespace MiniLinkLogic.Libraries.MiniLink.Services
 {
     public static class GuidShortener
     {

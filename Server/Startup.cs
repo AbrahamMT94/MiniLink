@@ -12,6 +12,8 @@ using MiniLinkLogic.Libraries.MiniLink.Data.Context;
 using MiniLinkLogic.Libraries.MiniLink.Services;
 using System.Linq;
 
+
+
 namespace MiniLink.Server
 {
     public class Startup
@@ -41,10 +43,10 @@ namespace MiniLink.Server
 
             // added link entry service
             services.AddScoped<ILinkEntryService, LinkEntryService>();
-
-
-            services.AddControllersWithViews();
-            services.AddRazorPages();
+            
+ 
+            services.AddControllersWithViews().AddNewtonsoftJson();
+            services.AddRazorPages().AddNewtonsoftJson();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
