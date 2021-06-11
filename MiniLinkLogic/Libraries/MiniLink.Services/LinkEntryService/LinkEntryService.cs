@@ -113,7 +113,7 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
             {
 
                 if (!string.IsNullOrEmpty(searchString))
-                    query = query.Where(m => m.URL.Contains(searchString) || searchString.Contains(m.URL) || searchString == m.Base64Id).Distinct();
+                    query = query.Where(m => m.URL.Contains(searchString) || searchString.Contains(m.Base64Id)).Distinct();
 
                 switch (sortOrder)
                 {
