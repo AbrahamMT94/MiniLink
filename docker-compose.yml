@@ -1,0 +1,29 @@
+version: '3.4'
+
+services:
+  rabbitmq:
+    ports:
+        - 5672:5672
+        - 15672:15672
+    environment:
+            - RABBITMQ_DEFAULT_USER=guest
+            - RABBITMQ_DEFAULT_PASS=guest     
+    image: rabbitmq:3-management-alpine
+   
+         
+       
+  minilink.server:
+    image: ${DOCKER_REGISTRY-}minilinkserver
+    build:
+      context: .
+      dockerfile: Server/Dockerfile
+    depends_on:
+        - rabbitmq
+
+  minilink.visitprocessor:
+    image: ${DOCKER_REGISTRY-}minilinkvisitprocessor
+    build:
+      context: .
+      dockerfile: VisitProcessor/Docker/Dockerfile
+    depends_on:
+        - rabbitmq

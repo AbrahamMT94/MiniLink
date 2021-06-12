@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+   
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+    <UserSecretsId>9150ab0b-4a0a-4ea7-832d-0f4f58066f17</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MassTransit" Version="7.2.0" />
+    <PackageReference Include="MassTransit.AspNetCore" Version="7.2.0" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="7.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.16" />
+
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
+    
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.14" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MiniLinkLogic\MiniLinkLogic.csproj" />
+    <ProjectReference Include="..\Shared\MiniLink.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="..\.dockerignore" Link="Docker\.dockerignore" />
+  </ItemGroup>
+
+</Project>

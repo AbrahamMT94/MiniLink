@@ -1,3 +1,4 @@
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -10,6 +11,7 @@ using MiniLinkLogic.Libraries.MiniLink.Core.Domain;
 using MiniLinkLogic.Libraries.MiniLink.Data;
 using MiniLinkLogic.Libraries.MiniLink.Data.Context;
 using MiniLinkLogic.Libraries.MiniLink.Services;
+using System;
 using System.Linq;
 
 
@@ -31,8 +33,19 @@ namespace MiniLink.Server
         {
 
             services.AddMemoryCache();
-            
 
+            services.AddMassTransit(x =>
+            {
+                x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(config =>
+                {
+                   
+                    config.Host(new Uri("rabbitmq://rabbitmq:5672"), h =>
+                    {
+                        h.Username("guest");
+                        h.Password("guest");
+                    });
+                }));
+            });
             // sets up dbcontext, could probably use context pooling in this scenario
             services.AddDbContext<MiniLinkContext>(options =>
                options.UseSqlServer( Configuration.GetConnectionString("DefaultConnection")));

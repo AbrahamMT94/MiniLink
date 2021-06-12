@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "VisitProcessor": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

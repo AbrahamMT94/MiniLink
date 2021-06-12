@@ -71,8 +71,8 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
 
             LinkEntry entry;
 
-            if(!ignoreCache)
-                if (_cache.TryGetValue(base64Id, out entry) )
+            if (!ignoreCache)
+                if (_cache.TryGetValue(base64Id, out entry))
                 {
                     return entry;
                 }
@@ -162,8 +162,14 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
             return result;
         }
 
-        public async Task<OperationResult<LinkEntryVisit>> AddVisit(LinkEntry entry, string ip)
+        public async Task<OperationResult<LinkEntryVisit>> AddVisit(Guid? entryId, string ip)
         {
+
+            if (!entryId.HasValue || entryId == Guid.Empty)
+            {
+                throw new ArgumentException(nameof(entryId) + " cannot be null or empty");
+            }
+
             if (string.IsNullOrEmpty(ip))
             {
                 ip = string.Empty;
@@ -171,7 +177,7 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
 
             var visit = new LinkEntryVisit()
             {
-                LinkEntryId = entry.Id,
+                LinkEntryId = entryId.Value,
                 TimeStamp = DateTime.UtcNow,
                 VisitorIPAdress = ip
             };

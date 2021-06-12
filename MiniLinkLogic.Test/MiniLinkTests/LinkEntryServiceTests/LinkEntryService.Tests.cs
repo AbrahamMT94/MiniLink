@@ -135,7 +135,7 @@ namespace MiniLink.Tests.MiniLinkTests
 
             var addedEntry = await linkEntryService.GetLinkEntryByBase64Id(add.Entry.Base64Id, true);
 
-            var addVisit = await linkEntryService.AddVisit(addedEntry,"");
+            var addVisit = await linkEntryService.AddVisit(addedEntry.Id,"");
 
             Assert.True(addVisit.Success);
 
@@ -145,7 +145,7 @@ namespace MiniLink.Tests.MiniLinkTests
             Assert.Equal(1, entry.Visits);
 
             for (var i = 0; i<100; i++)
-                await linkEntryService.AddVisit(addedEntry, "");
+                await linkEntryService.AddVisit(addedEntry.Id, "");
 
 
             //first visit is shown since we cache on read
