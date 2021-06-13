@@ -3,7 +3,7 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>343b826f-7111-4ca8-8b0b-a246e577bff6</ProjectGuid>
+    <ProjectGuid>eac9aaaa-85cc-40ca-9ad7-0d1b19a8e27a</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
     <DockerServiceName>minilink.server</DockerServiceName>

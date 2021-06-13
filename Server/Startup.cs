@@ -46,6 +46,8 @@ namespace MiniLink.Server
                     });
                 }));
             });
+
+            services.AddMassTransitHostedService(true);
             // sets up dbcontext, could probably use context pooling in this scenario
             services.AddDbContext<MiniLinkContext>(options =>
                options.UseSqlServer( Configuration.GetConnectionString("DefaultConnection")));

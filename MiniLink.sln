@@ -13,9 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniLinkLogic", "MiniLinkLo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniLink.Tests", "MiniLinkLogic.Test\MiniLink.Tests.csproj", "{51506D95-5DA9-4303-AAB5-E01AEC81B17D}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{343B826F-7111-4CA8-8B0B-A246E577BFF6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniLink.VisitProcessorWorker", "..\MiniLink.VisitProcessorWorker\MiniLink.VisitProcessorWorker.csproj", "{5242F934-68BC-4EDC-8440-6BC8312A455A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniLink.VisitProcessor", "VisitProcessor\MiniLink.VisitProcessor.csproj", "{249853E1-490E-4305-9BD7-B9D76C2B3178}"
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{EAC9AAAA-85CC-40CA-9AD7-0D1B19A8E27A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,14 +43,14 @@ Global
 		{51506D95-5DA9-4303-AAB5-E01AEC81B17D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51506D95-5DA9-4303-AAB5-E01AEC81B17D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51506D95-5DA9-4303-AAB5-E01AEC81B17D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{343B826F-7111-4CA8-8B0B-A246E577BFF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{343B826F-7111-4CA8-8B0B-A246E577BFF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{343B826F-7111-4CA8-8B0B-A246E577BFF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{343B826F-7111-4CA8-8B0B-A246E577BFF6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{249853E1-490E-4305-9BD7-B9D76C2B3178}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{249853E1-490E-4305-9BD7-B9D76C2B3178}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{249853E1-490E-4305-9BD7-B9D76C2B3178}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{249853E1-490E-4305-9BD7-B9D76C2B3178}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5242F934-68BC-4EDC-8440-6BC8312A455A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5242F934-68BC-4EDC-8440-6BC8312A455A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5242F934-68BC-4EDC-8440-6BC8312A455A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5242F934-68BC-4EDC-8440-6BC8312A455A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAC9AAAA-85CC-40CA-9AD7-0D1B19A8E27A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAC9AAAA-85CC-40CA-9AD7-0D1B19A8E27A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAC9AAAA-85CC-40CA-9AD7-0D1B19A8E27A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAC9AAAA-85CC-40CA-9AD7-0D1B19A8E27A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
