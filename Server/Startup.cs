@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MiniLink.Server.QueueServices;
 using MiniLinkLogic.Libraries.MiniLink.Core.Domain;
 using MiniLinkLogic.Libraries.MiniLink.Data;
 using MiniLinkLogic.Libraries.MiniLink.Data.Context;
@@ -58,7 +59,7 @@ namespace MiniLink.Server
 
             // added link entry service
             services.AddScoped<ILinkEntryService, LinkEntryService>();
-            
+            services.AddScoped<IQueueService, QueueService>();
  
             services.AddControllersWithViews().AddNewtonsoftJson();
             services.AddRazorPages().AddNewtonsoftJson();
@@ -75,13 +76,16 @@ namespace MiniLink.Server
             }
             else
             {
-                // run migrations and ensure db is up to date
-                context.Database.Migrate();
+               
+               
 
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            // run migrations and ensure db is up to date
+            context.Database.Migrate();
+
 
             app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();

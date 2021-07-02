@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace MiniLink.Server.QueueService
+namespace MiniLink.Server.QueueServices
 {
     public interface IQueueService
     {

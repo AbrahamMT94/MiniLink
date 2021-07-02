@@ -1,7 +1,7 @@
 ﻿using MassTransit;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MiniLink.Server.QueueService;
+using MiniLink.Server.QueueServices;
 using MiniLink.Shared.Messages;
 using MiniLinkLogic.Libraries.MiniLink.Services;
 using System;

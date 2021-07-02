@@ -1,6 +1,16 @@
 version: '3.4'
 
 services:
+    # Data store service
+  sqldata:
+    image: mcr.microsoft.com/mssql/server:2019-latest 
+    environment:
+      - SA_PASSWORD=Pass@word123
+      - ACCEPT_EULA=Y
+    ports:
+      - "5433:1433"
+    
+      # queue service
   rabbitmq:
     ports:
         - 5672:5672
@@ -10,6 +20,7 @@ services:
         - RABBITMQ_DEFAULT_PASS=guest     
     image: rabbitmq:3-management-alpine
 
+    # main server and redirector
   minilink.server:
     image: ${DOCKER_REGISTRY-}minilinkserver
     build:
@@ -17,7 +28,9 @@ services:
       dockerfile: Server/Dockerfile
     depends_on:
         - rabbitmq
+        - sqldata
 
+        #visit processor
   minilink.visitprocessorworker:
     image: ${DOCKER_REGISTRY-}minilinkvisitprocessorworker
     build:
@@ -25,4 +38,5 @@ services:
       dockerfile: ../MiniLink.VisitProcessorWorker/Dockerfile
     depends_on:
         - rabbitmq
+        - sqldata
 

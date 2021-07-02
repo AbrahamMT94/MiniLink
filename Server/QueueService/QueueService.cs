@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MiniLink.Server.QueueService
+namespace MiniLink.Server.QueueServices
 {
     public class QueueService : IQueueService
     {
@@ -19,10 +19,11 @@ namespace MiniLink.Server.QueueService
         {
             if (!entryId.HasValue || entryId == Guid.Empty)
                 return;
-            try
-            {
+           
                 Uri uri = new Uri("rabbitmq://rabbitmq:5672/visitQueue");
 
+            try
+            {
                 var endPoint = await _bus.GetSendEndpoint(uri);
                 var visit = new LinkEntryVisitMessage()
                 {
@@ -31,11 +32,12 @@ namespace MiniLink.Server.QueueService
                 };
 
                 await endPoint.Send(visit);
+
             }
             catch (Exception)
             {
-
-
+                //logging perhaps
+                return;
             }
         }
     }
