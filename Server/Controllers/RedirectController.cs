@@ -1,6 +1,7 @@
 ﻿using MassTransit;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MiniLink.Server.QueueService;
 using MiniLink.Shared.Messages;
 using MiniLinkLogic.Libraries.MiniLink.Services;
 using System;
@@ -14,14 +15,14 @@ namespace MiniLink.Server.Controllers
     [ApiController]
 
     public class RedirectController : Controller
-    {
+    { 
         private readonly ILinkEntryService _linkService;
-        private readonly IBus _bus;
+        private readonly IQueueService _queueService;
 
-        public RedirectController(ILinkEntryService linkService, IBus bus)
+        public RedirectController(ILinkEntryService linkService, IQueueService queueService)
         {
             _linkService = linkService;
-            _bus = bus;
+            _queueService = queueService;
         }
 
 
@@ -43,24 +44,7 @@ namespace MiniLink.Server.Controllers
             if (entry is null)
                 return NotFound();
 
-            try
-            {
-                Uri uri = new Uri("rabbitmq://rabbitmq:5672/visitQueue");
-
-                var endPoint = await _bus.GetSendEndpoint(uri);
-                var visit = new LinkEntryVisitMessage()
-                {
-                    Id = entry.Id,
-                    Ip = Request.HttpContext.Connection.RemoteIpAddress.ToString()
-                };
-
-                await endPoint.Send(visit);
-            }
-            catch (Exception)
-            {
-
-               
-            }
+            await _queueService.EnqueueVisit(entry.Id, Request.HttpContext.Connection.RemoteIpAddress.ToString());
 
             return Redirect(entry.URL);
         }
