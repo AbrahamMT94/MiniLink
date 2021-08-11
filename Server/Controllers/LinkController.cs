@@ -18,6 +18,7 @@ namespace MiniLink.Server.Controllers
     public class LinkController : ControllerBase
     {
         private readonly ILinkEntryService _linkService;
+        private string HostAddress =>  $"https://{this.Request.Host}"; 
 
         public LinkController(ILinkEntryService linkService)
         {
@@ -34,7 +35,7 @@ namespace MiniLink.Server.Controllers
 
            
 
-            return Ok(LinkDTOPreparer.PrepareDTOWithCount(entry, $"https://{this.Request.Host}"));
+            return Ok(LinkDTOPreparer.PrepareDTOWithCount(entry, HostAddress ));
         }
 
         [HttpGet]
@@ -48,7 +49,7 @@ namespace MiniLink.Server.Controllers
             if (entries is null)
                 return NotFound();
 
-            IPaginatedList<LinkWithCountDTO> dtoModel =  PaginatedModel<LinkWithCountDTO>.CreatePaginatedModel(entries.Items.Select(m => LinkDTOPreparer.PrepareDTOWithCount(m, $"https://{this.Request.Host}")).ToList(),entries.PageIndex,entries.TotalPages, entries.TotalCount, entries.PageSize);
+            IPaginatedList<LinkWithCountDTO> dtoModel =  PaginatedModel<LinkWithCountDTO>.CreatePaginatedModel(entries.Items.Select(m => LinkDTOPreparer.PrepareDTOWithCount(m, HostAddress)).ToList(),entries.PageIndex,entries.TotalPages, entries.TotalCount, entries.PageSize);
 
             return Ok(dtoModel);
         }
@@ -69,7 +70,7 @@ namespace MiniLink.Server.Controllers
 
          
             
-            return CreatedAtAction(nameof(Create), LinkDTOPreparer.PrepareDTOWithCount(entry.Entry, $"https://{this.Request.Host}").ShortenedUrl);
+            return CreatedAtAction(nameof(Create), LinkDTOPreparer.PrepareDTOWithCount(entry.Entry, HostAddress).ShortenedUrl);
         }
 
        
