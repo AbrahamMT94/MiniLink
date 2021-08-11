@@ -113,7 +113,7 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
             {
 
                 if (!string.IsNullOrEmpty(searchString))
-                    query = query.Where(m => m.URL.Contains(searchString) || searchString.Contains(m.Base64Id)).Distinct();
+                    query = query.Where(m => m.URL.Contains(searchString) || searchString.Contains(m.Base64Id));
 
                 switch (sortOrder)
                 {
@@ -124,7 +124,6 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
                         query = query.OrderByDescending(m => m.DateAdded);
                         break;
                     default:
-                        query = query.OrderByDescending(m => m.DateAdded);
                         break;
                 }
 
