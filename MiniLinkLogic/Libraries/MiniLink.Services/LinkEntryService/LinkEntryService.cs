@@ -124,6 +124,7 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
                         query = query.OrderByDescending(m => m.DateAdded);
                         break;
                     default:
+                        query = query.OrderBy(m => m.DateAdded);
                         break;
                 }
 
