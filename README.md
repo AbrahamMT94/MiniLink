@@ -1,5 +1,6 @@
 # MiniLink
 [![Build and deploy .NET Core app to Windows WebApp MiniLink](https://github.com/AbrahamMT94/MiniLink/actions/workflows/MiniLink.yml/badge.svg)](https://github.com/AbrahamMT94/MiniLink/actions/workflows/MiniLink.yml)
+
 Minilink is simple url shortener with basic reporting such as url visit count. 
 This project follows the onion or layers architecture where the outer layers only rely on the ones one level beneath it to avoid tight coupling.
 
