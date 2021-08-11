@@ -1,4 +1,4 @@
-name: Build and deploy .NET Core app to Windows WebApp MiniLink
+name: Build, test, and deploy .NET Core app to Windows WebApp MiniLink
 on:
   push:
     branches:
