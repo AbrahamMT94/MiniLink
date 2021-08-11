@@ -38,7 +38,7 @@ The project structure is as follows:
 
 ### Client Project
 #
-The client project is a SPA written in Blazor Web Assembly. It contains components for supporting the creationg and display of urls as well as search functionality and visit counter
+The client project is a SPA written in Blazor Web Assembly. It contains components for supporting the creation and display of urls as well as search functionality and visit counter
 
 The project structure is as follows:
 - **wwwwroot:** Where our content and css lives
