@@ -34,7 +34,7 @@ namespace MiniLink.Server.Controllers
 
            
 
-            return Ok(LinkDTOPreparer.PrepareDTOWithCount(entry, $"https://{this.Request.Host}/Redirect"));
+            return Ok(LinkDTOPreparer.PrepareDTOWithCount(entry, $"https://{this.Request.Host}/"));
         }
 
         [HttpGet]
@@ -48,7 +48,7 @@ namespace MiniLink.Server.Controllers
             if (entries is null)
                 return NotFound();
 
-            IPaginatedList<LinkWithCountDTO> dtoModel =  PaginatedModel<LinkWithCountDTO>.CreatePaginatedModel(entries.Items.Select(m => LinkDTOPreparer.PrepareDTOWithCount(m, $"https://{this.Request.Host}/Redirect")).ToList(),entries.PageIndex,entries.TotalPages, entries.TotalCount, entries.PageSize);
+            IPaginatedList<LinkWithCountDTO> dtoModel =  PaginatedModel<LinkWithCountDTO>.CreatePaginatedModel(entries.Items.Select(m => LinkDTOPreparer.PrepareDTOWithCount(m, $"https://{this.Request.Host}/")).ToList(),entries.PageIndex,entries.TotalPages, entries.TotalCount, entries.PageSize);
 
             return Ok(dtoModel);
         }
@@ -69,7 +69,7 @@ namespace MiniLink.Server.Controllers
 
          
             
-            return CreatedAtAction(nameof(Create), LinkDTOPreparer.PrepareDTOWithCount(entry.Entry, $"https://{this.Request.Host}/Redirect").ShortenedUrl);
+            return CreatedAtAction(nameof(Create), LinkDTOPreparer.PrepareDTOWithCount(entry.Entry, $"https://{this.Request.Host}/").ShortenedUrl);
         }
 
        

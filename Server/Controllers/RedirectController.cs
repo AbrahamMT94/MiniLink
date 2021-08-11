@@ -21,7 +21,7 @@ namespace MiniLink.Server.Controllers
         }
 
         // GET: RedirectController
-        [Route("[controller]/{id}")]
+        [Route("{id}")]
         [HttpGet]
         public async Task<IActionResult> Index(string id)
         {
