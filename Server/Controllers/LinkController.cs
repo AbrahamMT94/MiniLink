@@ -18,6 +18,7 @@ namespace MiniLink.Server.Controllers
     public class LinkController : ControllerBase
     {
         private readonly ILinkEntryService _linkService;
+        private string HostAddress => $"https://{this.Request.Host}";
 
         public LinkController(ILinkEntryService linkService)
         {
@@ -32,13 +33,13 @@ namespace MiniLink.Server.Controllers
             if (entry is null)
                 return NotFound();
 
-           
 
-            return Ok(LinkDTOPreparer.PrepareDTOWithCount(entry, $"https://{this.Request.Host}/Redirect"));
+
+            return Ok(LinkDTOPreparer.PrepareDTOWithCount(entry, HostAddress));
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery]int pageIndex, string searchString, string sortOrder)
+        public async Task<IActionResult> Get([FromQuery] int pageIndex, string searchString, string sortOrder)
         {
             if (pageIndex < 1)
                 pageIndex = 1;
@@ -48,7 +49,7 @@ namespace MiniLink.Server.Controllers
             if (entries is null)
                 return NotFound();
 
-            IPaginatedList<LinkWithCountDTO> dtoModel =  PaginatedModel<LinkWithCountDTO>.CreatePaginatedModel(entries.Items.Select(m => LinkDTOPreparer.PrepareDTOWithCount(m, $"https://{this.Request.Host}/Redirect")).ToList(),entries.PageIndex,entries.TotalPages, entries.TotalCount, entries.PageSize);
+            IPaginatedList<LinkWithCountDTO> dtoModel = PaginatedModel<LinkWithCountDTO>.CreatePaginatedModel(entries.Items.Select(m => LinkDTOPreparer.PrepareDTOWithCount(m, HostAddress)).ToList(), entries.PageIndex, entries.TotalPages, entries.TotalCount, entries.PageSize);
 
             return Ok(dtoModel);
         }
@@ -60,18 +61,18 @@ namespace MiniLink.Server.Controllers
 
             if (!entry.Success)
             {
-                foreach(var error in entry.Errors)
+                foreach (var error in entry.Errors)
                 {
                     ModelState.AddModelError(nameof(input.URL), error);
                 }
                 return BadRequest(ModelState);
             }
 
-         
-            
-            return CreatedAtAction(nameof(Create), LinkDTOPreparer.PrepareDTOWithCount(entry.Entry, $"https://{this.Request.Host}/Redirect").ShortenedUrl);
+
+
+            return CreatedAtAction(nameof(Create), LinkDTOPreparer.PrepareDTOWithCount(entry.Entry, HostAddress).ShortenedUrl);
         }
 
-       
+
     }
 }
