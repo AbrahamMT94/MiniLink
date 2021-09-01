@@ -67,8 +67,6 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
                 return null;
             }
 
-
-
             LinkEntry entry;
 
             if (!ignoreCache)
@@ -95,6 +93,7 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
             {
                 _cache.Set(entry.Base64Id, entry, cacheEntryOptions);
             }
+
             return entry;
         }
 
