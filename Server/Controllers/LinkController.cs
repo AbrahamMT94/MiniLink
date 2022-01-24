@@ -68,8 +68,6 @@ namespace MiniLink.Server.Controllers
                 return BadRequest(ModelState);
             }
 
-
-
             return CreatedAtAction(nameof(Create), LinkDTOPreparer.PrepareDTOWithCount(entry.Entry, HostAddress).ShortenedUrl);
         }
 

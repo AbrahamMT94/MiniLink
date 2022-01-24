@@ -60,6 +60,7 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
             }
             return entry;
         }
+        
         public async Task<LinkEntry> GetLinkEntryByBase64Id(string base64Id, bool ignoreCache = false)
         {
             if (string.IsNullOrEmpty(base64Id))
