@@ -40,8 +40,6 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
 
             LinkEntry entry;
 
-
-
             entry = await _linkEntryRepository.GetByIdAsync(id);
 
             if (entry is null)
@@ -66,8 +64,6 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
             {
                 return null;
             }
-
-
 
             LinkEntry entry;
 
@@ -124,7 +120,7 @@ namespace MiniLinkLogic.Libraries.MiniLink.Services
                         query = query.OrderByDescending(m => m.DateAdded);
                         break;
                     default:
-                        query = query.OrderBy(m => m.DateAdded);
+                        query = query.OrderByDescending(m => m.DateAdded);
                         break;
                 }
 
